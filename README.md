@@ -9,7 +9,7 @@ Here is what we will learn in this course.
 3. What is model, what are Plugins and how  different Plugins help us to create models of our API JSON data. 
 4. How we can parse JSON data via Model.
 GET APIS
-
+     
 1. What are Get APIS 
 2. What are different scenarios to handle Get API
 3. Integrate Get APIS with Plugins Model and show data into List\
