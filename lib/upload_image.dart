@@ -44,24 +44,34 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
 
     var length = await image!.length();
 
-    var uri = Uri.parse('https://583st1inq4.execute-api.us-east-1.amazonaws.com/ms/datas3');
+    // var uri = Uri.parse('https://583st1inq4.execute-api.us-east-1.amazonaws.com/ms/datas3');
+    var uri = Uri.parse('https://6iu7h4oq2l.execute-api.us-east-1.amazonaws.com/v1/profiles3/PUTtrial.jpg');
 
-    var request = new http.MultipartRequest('POST', uri);
-    request.fields['title'] = "dummyImage";
-    request.headers['Authorization'] = "Datas3";
-    request.headers['content-type'] = "image/jpg";
-    request.headers['accept'] = "image/jpg";
-
-    // request.headers['Connection'] = "keep-alive";
-
-    var multiport = new http.MultipartFile(
-        'image.jpg',
-        stream,
-        length);
-
-    request.files.add(multiport);
-
-    var response = await request.send() ;
+    final http.Response response = await http.put(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'title': "Demo String",
+      }),
+    );
+    // var request = new http.MultipartRequest('POST', uri);
+    // request.fields['title'] = "dummyImage";
+    // request.headers['Authorization'] = "Datas3";
+    // request.headers['content-type'] = "image/jpg";
+    // request.headers['accept'] = "image/jpg";
+    //
+    // // request.headers['Connection'] = "keep-alive";
+    //
+    // var multiport = new http.MultipartFile(
+    //     'image.jpg',
+    //     stream,
+    //     length);
+    //
+    // request.files.add(multiport);
+    //
+    // var response = await request.send() ;
 
 
     if(response.statusCode == 200){
