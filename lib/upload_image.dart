@@ -18,14 +18,17 @@ class UploadImageScreen extends StatefulWidget {
 class _UploadImageScreenState extends State<UploadImageScreen> {
 
   File? image ;
+  var bytes;
+  late final pick_image ;
   final _picker = ImagePicker();
   bool showSpinner = false ;
 
   Future getImage()async{
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery , imageQuality: 80);
-
+    pick_image=pickedFile;
     if(pickedFile!= null ){
       image = File(pickedFile.path);
+      bytes = await File('image').readAsBytes();
       setState(() {
 
       });
@@ -45,17 +48,21 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
     var length = await image!.length();
 
     // var uri = Uri.parse('https://583st1inq4.execute-api.us-east-1.amazonaws.com/ms/datas3');
-    var uri = Uri.parse('https://6iu7h4oq2l.execute-api.us-east-1.amazonaws.com/v1/profiles3/PUTtrial.jpg');
+    var uri = Uri.parse('https://583st1inq4.execute-api.us-east-1.amazonaws.com/test/test-api');
 
-    final http.Response response = await http.put(
-      uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'title': "Demo String",
-      }),
-    );
+      final http.Response response = await http.post(uri,
+          headers: {'testsource':'testtoken','Content-Type': 'image/jpg','Accept': 'image/jpg'}
+      ,body: image!.readAsBytesSync());
+
+    // final http.Response response = await http.put(
+    //   uri,
+    //   headers: {
+    //     'Content-Type': 'image/jpg',
+    //   },
+    //   body: bytes
+    //   // json.encode(<String,String>{"hello":"bye"})
+    // );
+
     // var request = new http.MultipartRequest('POST', uri);
     // request.fields['title'] = "dummyImage";
     // request.headers['Authorization'] = "Datas3";
@@ -72,13 +79,18 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
     // request.files.add(multiport);
     //
     // var response = await request.send() ;
+    print(response.statusCode.toString() );
+    print(response.reasonPhrase.toString() );
 
 
     if(response.statusCode == 200){
       setState(() {
         showSpinner = false ;
       });
+      print(response.reasonPhrase.toString() );
       print('image uploaded');
+
+
     }else {
       print(response.reasonPhrase.toString() );
       print('failed');
