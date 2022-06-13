@@ -54,9 +54,11 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
 
 
     // PUT - Image to S3 Bucket
-    String bucketname='profiles3';
-    String uploadIMGname='TRIAL_PUT01.jpg';
-    var uri = Uri.parse('https://6iu7h4oq2l.execute-api.us-east-1.amazonaws.com/v1/'+bucketname+'/'+uploadIMGname);
+    String bucketname='reciver-bkt';
+    String uploadIMGname='TRIAL_PUT1.jpg';
+    String StageURL='https://rzdgmqv4f2.execute-api.us-east-1.amazonaws.com/v1/';
+
+    var uri = Uri.parse(StageURL+bucketname+'/'+uploadIMGname);
     final http.Response response = await http.put(uri,
         headers: {'testsource':'testtoken','Content-Type': 'image/jpg','Accept': 'image/jpg'},body: image!.readAsBytesSync());
 
