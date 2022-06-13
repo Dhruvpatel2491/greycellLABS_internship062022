@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
@@ -17,15 +16,18 @@ class UploadImageScreen extends StatefulWidget {
 
 class _UploadImageScreenState extends State<UploadImageScreen> {
 
+  final TextEditingController _controller_err = TextEditingController();
+  final TextEditingController _controller_msg = TextEditingController();
+
   File? image ;
   var bytes;
-  late final pick_image ;
+  // late final pick_image ;
   final _picker = ImagePicker();
   bool showSpinner = false ;
 
   Future getImage()async{
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery , imageQuality: 80);
-    pick_image=pickedFile;
+    // pick_image=pickedFile;
     if(pickedFile!= null ){
       image = File(pickedFile.path);
       bytes = await File('image').readAsBytes();
@@ -48,7 +50,7 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
     var length = await image!.length();
 
     // var uri = Uri.parse('https://583st1inq4.execute-api.us-east-1.amazonaws.com/ms/datas3');
-    var uri = Uri.parse('https://583st1inq4.execute-api.us-east-1.amazonaws.com/test/test-api');
+    var uri = Uri.parse('https://583st1inq4.execute-api.us-east-1.amazonaws.com/newTest/test-api');
 
       final http.Response response = await http.post(uri,
           headers: {'testsource':'testtoken','Content-Type': 'image/jpg','Accept': 'image/jpg'}
@@ -79,6 +81,8 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
     // request.files.add(multiport);
     //
     // var response = await request.send() ;
+    _controller_err.text="CODE: "+response.statusCode.toString();
+    _controller_msg.text="MSG: "+response.reasonPhrase.toString();
     print(response.statusCode.toString() );
     print(response.reasonPhrase.toString() );
 
@@ -123,28 +127,64 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
               :
               Container(
                 child: Center(
-                  child: Image.file(
-                    File(image!.path).absolute,
-                    height: 100,
-                    width: 100,
-                    fit: BoxFit.cover,
-                  ),
+                  child:
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.greenAccent,
+                          border: Border(
+                            left: BorderSide(
+                              color: Colors.green,
+                              width: 3,
+                            ),
+                          ),
+                        ),
+                        height: 210,
+                        width: 210,
+                      ),
+                      Image.file(
+                        File(image!.path).absolute,
+                        height: 200,
+                        width: 200,
+                        fit: BoxFit.cover,
+                      ),
+                    ],
+                  )
                 ),
               ),
               ),
             ),
-            SizedBox(height: 150,),
-            GestureDetector(
-              onTap: (){
+            SizedBox(height: 50,),
+            FlatButton(
+              color: Colors.green,
+              padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 65),
+              splashColor: Colors.redAccent,
+              onPressed: () {
                 uploadImage();
               },
-              child: Container(
-                height: 50,
-                width: 200,
-                color: Colors.green,
-                child: Center(child: Text('Upload')),
+              child: const Text(
+                ' Upload',
+
+                style: TextStyle(
+
+                  color: Colors.white,
+                  fontSize: 20
+                ),
               ),
-            )
+            ),
+            SizedBox(height: 50,),
+
+            TextField( controller: _controller_err),
+            SizedBox(height: 30,),
+            TextField( controller: _controller_msg),
+
+
+
+
+
           ],
         ),
       ),
