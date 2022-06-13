@@ -50,11 +50,25 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
     var length = await image!.length();
 
     // var uri = Uri.parse('https://583st1inq4.execute-api.us-east-1.amazonaws.com/ms/datas3');
-    var uri = Uri.parse('https://583st1inq4.execute-api.us-east-1.amazonaws.com/newTest/test-api');
+    // var uri = Uri.parse('https://583st1inq4.execute-api.us-east-1.amazonaws.com/newTest/test-api');
 
-      final http.Response response = await http.post(uri,
-          headers: {'testsource':'testtoken','Content-Type': 'image/jpg','Accept': 'image/jpg'}
-      ,body: image!.readAsBytesSync());
+
+    // PUT - Image to S3 Bucket
+    String bucketname='profiles3';
+    String uploadIMGname='TRIAL_PUT01.jpg';
+    var uri = Uri.parse('https://6iu7h4oq2l.execute-api.us-east-1.amazonaws.com/v1/'+bucketname+'/'+uploadIMGname);
+    final http.Response response = await http.put(uri,
+        headers: {'testsource':'testtoken','Content-Type': 'image/jpg','Accept': 'image/jpg'},body: image!.readAsBytesSync());
+
+    var headers = {
+      'testsource': 'testtoken',
+      'Content-Type': 'image/jpg'
+    };
+
+
+
+
+
 
     // final http.Response response = await http.put(
     //   uri,
@@ -176,10 +190,9 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
               ),
             ),
             SizedBox(height: 50,),
-
-            TextField( controller: _controller_err),
+            TextField( controller: _controller_err,readOnly: true,textAlign: TextAlign.center,),
             SizedBox(height: 30,),
-            TextField( controller: _controller_msg),
+            TextField( controller: _controller_msg,readOnly: true,textAlign: TextAlign.center,),
 
 
 

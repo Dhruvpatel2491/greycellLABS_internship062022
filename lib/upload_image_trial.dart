@@ -47,12 +47,11 @@ class _UploadImageScreen2State extends State<UploadImageScreen2> {
 
     var length = await image!.length();
 
-    var uri = Uri.parse('https://583st1inq4.execute-api.us-east-1.amazonaws.com/ms/datas3');
-
-
+    var uri = Uri.parse('https://6iu7h4oq2l.execute-api.us-east-1.amazonaws.com/v1/profiles3/ABCD.jpg');
+    // var uri = Uri.parse('https://583st1inq4.execute-api.us-east-1.amazonaws.com/ms/datas3');
     // var uri = Uri.parse('https://583st1inq4.execute-api.us-east-1.amazonaws.com/newTest/test-api');
     //
-    final http.Response response = await http.post(uri,
+    final http.Response response = await http.put(uri,
         headers: {'testsource':'testtoken','Content-Type': 'image/jpg','Accept': 'image/jpg'},body: image!.readAsBytesSync());
 
     var headers = {

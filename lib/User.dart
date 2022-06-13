@@ -14,7 +14,10 @@ class _UserOptionsState extends State<UserOptions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
         FlatButton(
           color: Colors.green,
           padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 65),
@@ -26,7 +29,7 @@ class _UserOptionsState extends State<UserOptions> {
             );
           },
           child: const Text(
-            ' Upload',
+            ' Dhruv',
 
             style: TextStyle(
 
